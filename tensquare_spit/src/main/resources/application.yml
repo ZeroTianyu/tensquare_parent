@@ -5,7 +5,5 @@ spring:
     name: tensquare-spit
   data:
     mongodb:
-      host: 39.105.37.77
+      host: 127.0.0.1
       database: spitdb
-      username: root
-      password: Qwer@123456
