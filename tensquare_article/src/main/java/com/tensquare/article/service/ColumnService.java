@@ -111,7 +111,7 @@ public class ColumnService {
 	 * @param searchMap
 	 * @return
 	 */
-	private Specification<Column> createSpecification(Map searchMap) {
+	private Specification<Column> createSpecification(final Map searchMap) {
 
 		return new Specification<Column>() {
 

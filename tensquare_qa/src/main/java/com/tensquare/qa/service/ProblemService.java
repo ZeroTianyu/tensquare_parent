@@ -159,7 +159,7 @@ public class ProblemService {
      * @param searchMap
      * @return
      */
-    private Specification<Problem> createSpecification(Map searchMap) {
+    private Specification<Problem> createSpecification(final Map searchMap) {
 
         return new Specification<Problem>() {
 

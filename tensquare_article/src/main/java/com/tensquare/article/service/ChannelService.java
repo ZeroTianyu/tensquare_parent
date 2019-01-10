@@ -111,7 +111,7 @@ public class ChannelService {
 	 * @param searchMap
 	 * @return
 	 */
-	private Specification<Channel> createSpecification(Map searchMap) {
+	private Specification<Channel> createSpecification(final Map searchMap) {
 
 		return new Specification<Channel>() {
 

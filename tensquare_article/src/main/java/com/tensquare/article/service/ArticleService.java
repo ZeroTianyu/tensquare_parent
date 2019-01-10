@@ -131,7 +131,7 @@ public class ArticleService {
 	 * @param searchMap
 	 * @return
 	 */
-	private Specification<Article> createSpecification(Map searchMap) {
+	private Specification<Article> createSpecification(final Map searchMap) {
 
 		return new Specification<Article>() {
 
