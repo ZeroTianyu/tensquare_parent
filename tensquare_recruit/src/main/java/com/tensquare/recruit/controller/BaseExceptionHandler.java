@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 /**
  * 统一异常处理类
+ * @author Zero
  */
 @ControllerAdvice
 public class BaseExceptionHandler {
