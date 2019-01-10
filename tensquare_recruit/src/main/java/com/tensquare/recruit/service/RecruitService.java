@@ -111,7 +111,7 @@ public class RecruitService {
 	 * @param searchMap
 	 * @return
 	 */
-	private Specification<Recruit> createSpecification(Map searchMap) {
+	private Specification<Recruit> createSpecification(final Map searchMap) {
 
 		return new Specification<Recruit>() {
 

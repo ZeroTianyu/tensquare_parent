@@ -111,7 +111,7 @@ public class EnterpriseService {
 	 * @param searchMap
 	 * @return
 	 */
-	private Specification<Enterprise> createSpecification(Map searchMap) {
+	private Specification<Enterprise> createSpecification(final Map searchMap) {
 
 		return new Specification<Enterprise>() {
 
