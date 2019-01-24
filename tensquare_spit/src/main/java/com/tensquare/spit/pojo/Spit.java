@@ -10,16 +10,26 @@ import java.util.Date;
  */
 public class Spit {
     @Id
-    private String _id;
-    private String content;
-    private Date publishtime;
-    private String userid;
-    private String nickname;
-    private Integer visits;
-    private Integer thumbup;
-    private Integer share;
-    private String state;
-    private String parentid;
+    private String _id;         //id
+    private String content;     //内容
+    private Date publishtime;   //发布时间
+    private String userid;      //发布人iD
+    private String nickname;    //发布人姓名
+    private Integer visits;     //浏览量
+    private Integer thumbup;    //点赞数
+    private Integer share;      //分享数
+    private Integer comment;    //回复数
+    private String state;       //状态
+    private String parentid;    //父节点ID
+
+
+    public Integer getComment() {
+        return comment;
+    }
+
+    public void setComment(Integer comment) {
+        this.comment = comment;
+    }
 
     public String get_id() {
         return _id;
