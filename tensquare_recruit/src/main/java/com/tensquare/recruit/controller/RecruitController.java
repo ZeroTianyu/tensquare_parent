@@ -3,6 +3,7 @@ package com.tensquare.recruit.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.tensquare.recruit.service.RecruitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tensquare.recruit.pojo.Recruit;
-import com.tensquare.recruit.service.RecruitService;
 
 import entity.PageResult;
 import entity.Result;

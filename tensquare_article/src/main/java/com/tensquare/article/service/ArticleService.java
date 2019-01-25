@@ -1,7 +1,7 @@
 package com.tensquare.article.service;
 
-import com.tensquare.article.dao.ArticleDao;
 import com.tensquare.article.pojo.Article;
+import com.tensquare.article.dao.ArticleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

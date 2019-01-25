@@ -9,10 +9,10 @@ import util.IdWorker;
  * @author Zero
  */
 @SpringBootApplication
-public class RecruitApplication {
+public class SearchApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RecruitApplication.class, args);
+        SpringApplication.run(SearchApplication.class, args);
     }
 
     @Bean

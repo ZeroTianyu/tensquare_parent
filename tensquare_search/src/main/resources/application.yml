@@ -2,7 +2,7 @@ server:
   port: 9007
 spring:
   application:
-    name: tensquare‐search #指定服务名
+    name: tensquare-search
   data:
     elasticsearch:
-      cluster-nodes: localhost:9200
+      cluster-nodes: localhost:9300
