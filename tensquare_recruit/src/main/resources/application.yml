@@ -5,7 +5,7 @@ spring:
     name: tensquare-recruit #指定服务名
   datasource:  
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/tensquare_recruit?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://39.105.37.77:3306/tensquare_recruit?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     password: Qwer@123456
   jpa: 

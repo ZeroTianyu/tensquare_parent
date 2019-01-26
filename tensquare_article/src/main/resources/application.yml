@@ -5,16 +5,15 @@ spring:
     name: tensquare-article #指定服务名
   datasource:  
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/tensquare_article?characterEncoding=UTF8&useSSL=false
+    url: jdbc:mysql://39.105.37.77:3306/tensquare_article?characterEncoding=UTF8&useSSL=false
     username: root
     password: Qwer@123456
   jpa: 
     database: MySQL
     show-sql: true
   redis:
-    cluster:
-      nodes: 127.0.0.1:6180,127.0.0.1:6181,127.0.0.1:6182,127.0.0.1:6183,127.0.0.1:6184,127.0.0.1:6185
-    timeout: 5000
+    port: 6379
+    host: 39.105.37.77
 
 eureka:
   client:

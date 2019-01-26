@@ -37,6 +37,6 @@ public class ProductTest {
      */
     @Test
     public void  sendMsg3(){
-        rabbitTemplate.convertAndSend("topic84","good.log","主题模式测试");
+        rabbitTemplate.convertAndSend("topic","good.log","主题模式测试");
     }
 }

@@ -2,4 +2,6 @@ server:
   port: 8099
 spring:
   rabbitmq:
-    host: 127.0.0.1
+    host: 39.105.37.77
+    username: root
+    password: Qwer@123456

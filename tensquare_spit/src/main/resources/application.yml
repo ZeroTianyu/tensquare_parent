@@ -5,9 +5,8 @@ spring:
     name: tensquare-spit
   data:
     mongodb:
-      host: 127.0.0.1
+      host: 39.105.37.77
       database: spitdb
   redis:
-    cluster:
-      nodes: 127.0.0.1:6180,127.0.0.1:6181,127.0.0.1:6182,127.0.0.1:6183,127.0.0.1:6184,127.0.0.1:6185
-    timeout: 5000
+    port: 6379
+    host: 39.105.37.77
