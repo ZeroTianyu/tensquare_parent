@@ -1,17 +1,24 @@
 package com.tensquare.user.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.tensquare.user.pojo.rsp.UserRsp;
+import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+
 import com.tensquare.user.pojo.User;
 import com.tensquare.user.service.UserService;
+
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.*;
+import util.JwtUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 控制器层
@@ -25,49 +32,38 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
-    private RedisTemplate redisTemplate;
+    private JwtUtil jwtUtil;
 
-//
-//    public Result login(@RequestBody User user) {
-//        user = userService.login(user.getMobile(), user.getPassword());
-//        if (user == null) {
-//            return new Result(false, StatusCode.LOGINERROR, "登录失败");
-//        }
-//        String token = jwtUtil.createJWT(user.getId(), user.getMobile(), "user");
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("token", token);
-//        map.put("roles", "user");
-//        return new Result(true, StatusCode.OK, "登录成功", map);
-//    }
+    @Autowired
+    private HttpServletRequest request;
+
 
     /**
-     * 发送短信验证码
-     */
-//    @RequestMapping(value = "/sendsms/{mobile}", method = RequestMethod.POST)
-//    public Result sendSms(@PathVariable String mobile) {
-//        userService.sendSms(mobile);
-//        return new Result(true, StatusCode.OK, "发送成功");
-//    }
-
-    /**
-     * 注册
+     * 根据手机号登录
      *
+     * @param loginMap
      * @return
      */
-    @RequestMapping(value = "/register/{code}", method = RequestMethod.POST)
-    public Result regist(@PathVariable String code, @RequestBody User user) {
-        //得到缓存中的验证码
-        String checkcodeRedis = (String) redisTemplate.opsForValue().get("checkcode_" + user.getMobile());
-        if (checkcodeRedis.isEmpty()) {
-            return new Result(false, StatusCode.ERROR, "请先获取手机验证码");
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public Result findByMobile(@RequestBody Map<String, String> loginMap) {
+        UserRsp user = userService.findByMobile(loginMap.get("mobile"), loginMap.get("password"));
+        if (user != null) {
+            //生成token
+            String token = jwtUtil.createJWT(user.getId(), user.getNickname(), "user",user);
+            Map map = new HashMap(16);
+            //用户的密码不显示
+            map.put("token", token);
+            map.put("user",user);
+
+            return new Result(true, StatusCode.OK, "登录成功", map);
+        } else {
+            return new Result(true, StatusCode.OK, "用户名或密码错误");
         }
-        if (!checkcodeRedis.equals(code)) {
-            return new Result(false, StatusCode.ERROR, "请输入正确的验证码");
-        }
-        userService.add(user);
-        return new Result(true, StatusCode.OK, "注册成功");
+
     }
+
 
     /**
      * 查询全部数据
@@ -123,8 +119,8 @@ public class UserController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public Result add(@RequestBody User user) {
-        userService.add(user);
-        return new Result(true, StatusCode.OK, "增加成功");
+        Result result = userService.add(user);
+        return result;
     }
 
     /**
@@ -135,17 +131,21 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Result update(@RequestBody User user, @PathVariable String id) {
         user.setId(id);
-        userService.updateUser(user);
+        userService.update(user);
         return new Result(true, StatusCode.OK, "修改成功");
     }
 
     /**
-     * 删除 必须有admin角色才能删除
+     * 删除
      *
      * @param id
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Result delete(@PathVariable String id) {
+        String token = (String) request.getAttribute("admin_claims");
+        if (StringUtils.isEmpty(token)){
+            throw new RuntimeException("权限不足!");
+        }
         userService.deleteById(id);
         return new Result(true, StatusCode.OK, "删除成功");
     }

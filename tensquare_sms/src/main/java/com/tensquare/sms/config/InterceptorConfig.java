@@ -1,6 +1,6 @@
-package com.tensquare.spit.config;
+package com.tensquare.sms.config;
 
-import com.tensquare.spit.interceptor.JwtInterceptor;
+import com.tensquare.sms.interceptor.JwtInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

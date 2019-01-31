@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.Query;
  * @author Administrator
  */
 public interface ArticleDao extends JpaRepository<Article, String>, JpaSpecificationExecutor<Article> {
-    /**查询
+    /**设置审核状态
      * @param id
      */
     @Modifying

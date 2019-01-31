@@ -1,6 +1,7 @@
 package com.tensquare.qa.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -8,8 +9,13 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
 
 import com.tensquare.qa.dao.ProblemDao;
+import entity.Result;
+import entity.StatusCode;
+import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +25,7 @@ import org.springframework.stereotype.Service;
 import util.IdWorker;
 
 import com.tensquare.qa.pojo.Problem;
+import util.JwtUtil;
 
 /**
  * 服务层
@@ -33,6 +40,9 @@ public class ProblemService {
 
     @Autowired
     private IdWorker idWorker;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     /**
      * 根据标签ID查询问题列表
@@ -127,6 +137,12 @@ public class ProblemService {
      */
     public void add(Problem problem) {
         problem.setId(idWorker.nextId() + "");
+        problem.setCreatetime(new Date());
+        problem.setUpdatetime(new Date());
+        problem.setVisits(0L);
+        problem.setThumbup(0L);
+        problem.setReply(0L);
+        problem.setSolve("0");
         problemDao.save(problem);
     }
 
@@ -141,11 +157,35 @@ public class ProblemService {
 
     /**
      * 删除
+     * 如果是管理员，可以随便删除
+     * 如果是用户，只可以删除自己发布的
      *
      * @param id
      */
-    public void deleteById(String id) {
-        problemDao.deleteById(id);
+    public Result deleteById(String id, HttpServletRequest request) {
+        Result result = null;
+        String authorization = request.getHeader("Authorization");
+        if (!StringUtils.isEmpty(authorization) && authorization.startsWith("Bearer ")) {
+            String token = authorization.substring(7);
+            Claims claims = jwtUtil.parseJWT(token);
+            String roles = (String) claims.get("roles");
+
+            if (roles.equals("admin")) {
+                problemDao.deleteById(id);
+                result = new Result(true, StatusCode.OK, "删除成功！");
+            } else {
+                Problem byIdandAndUserid = problemDao.findByIdandAndUserid(id, claims.getId());
+                if (byIdandAndUserid != null) {
+                    problemDao.deleteById(id);
+                    result = new Result(true, StatusCode.OK, "删除成功！");
+                } else {
+                    result = new Result(false, StatusCode.ACCESSERROR, "您没有权限删除！");
+                }
+            }
+        } else {
+            throw new RuntimeException("您没有权限删除！");
+        }
+        return result;
     }
 
     /**
@@ -163,31 +203,31 @@ public class ProblemService {
                 List<Predicate> predicateList = new ArrayList<Predicate>();
                 // ID
                 if (searchMap.get("id") != null && !"".equals(searchMap.get("id"))) {
-                    predicateList.add(cb.like(root.get("id").as(String.class), "%" + (String) searchMap.get("id") + "%"));
+                    predicateList.add(cb.like(root.get("id").as(String.class), "%" + searchMap.get("id") + "%"));
                 }
                 // 标题
                 if (searchMap.get("title") != null && !"".equals(searchMap.get("title"))) {
-                    predicateList.add(cb.like(root.get("title").as(String.class), "%" + (String) searchMap.get("title") + "%"));
+                    predicateList.add(cb.like(root.get("title").as(String.class), "%" + searchMap.get("title") + "%"));
                 }
                 // 内容
                 if (searchMap.get("content") != null && !"".equals(searchMap.get("content"))) {
-                    predicateList.add(cb.like(root.get("content").as(String.class), "%" + (String) searchMap.get("content") + "%"));
+                    predicateList.add(cb.like(root.get("content").as(String.class), "%" + searchMap.get("content") + "%"));
                 }
                 // 用户ID
                 if (searchMap.get("userid") != null && !"".equals(searchMap.get("userid"))) {
-                    predicateList.add(cb.like(root.get("userid").as(String.class), "%" + (String) searchMap.get("userid") + "%"));
+                    predicateList.add(cb.like(root.get("userid").as(String.class), "%" + searchMap.get("userid") + "%"));
                 }
                 // 昵称
                 if (searchMap.get("nickname") != null && !"".equals(searchMap.get("nickname"))) {
-                    predicateList.add(cb.like(root.get("nickname").as(String.class), "%" + (String) searchMap.get("nickname") + "%"));
+                    predicateList.add(cb.like(root.get("nickname").as(String.class), "%" + searchMap.get("nickname") + "%"));
                 }
                 // 是否解决
                 if (searchMap.get("solve") != null && !"".equals(searchMap.get("solve"))) {
-                    predicateList.add(cb.like(root.get("solve").as(String.class), "%" + (String) searchMap.get("solve") + "%"));
+                    predicateList.add(cb.like(root.get("solve").as(String.class), "%" + searchMap.get("solve") + "%"));
                 }
                 // 回复人昵称
                 if (searchMap.get("replyname") != null && !"".equals(searchMap.get("replyname"))) {
-                    predicateList.add(cb.like(root.get("replyname").as(String.class), "%" + (String) searchMap.get("replyname") + "%"));
+                    predicateList.add(cb.like(root.get("replyname").as(String.class), "%" + searchMap.get("replyname") + "%"));
                 }
 
                 return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));

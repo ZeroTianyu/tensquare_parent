@@ -1,4 +1,4 @@
-package com.tensquare.sms.interceptor;
+package com.tensquare.recruit.interceptor;
 
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;

@@ -1,7 +1,5 @@
-package com.tensquare.user.interceptor;
+package com.tensquare.qa.interceptor;
 
-import entity.Result;
-import entity.StatusCode;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

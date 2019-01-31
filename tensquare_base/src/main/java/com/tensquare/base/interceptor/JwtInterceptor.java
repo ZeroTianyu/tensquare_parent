@@ -1,4 +1,4 @@
-package com.tensquare.article.interceptor;
+package com.tensquare.base.interceptor;
 
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;

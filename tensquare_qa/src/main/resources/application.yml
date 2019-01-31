@@ -4,10 +4,13 @@ spring:
   application:
     name: tensquare-qa #指定服务名
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://39.105.37.77:3306/tensquare_qa?useUnicode=true&characterEncoding=utf8&useSSL=false
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.105.37.77:3306/tensquare_qa?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
     username: root
     password: Qwer@123456
   jpa:
     database: MySQL
     show-sql: true
+jwt:
+  config:
+    key: itcast

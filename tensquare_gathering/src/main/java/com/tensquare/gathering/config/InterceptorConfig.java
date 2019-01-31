@@ -1,6 +1,6 @@
-package com.tensquare.base.config;
+package com.tensquare.gathering.config;
 
-import com.tensquare.base.interceptor.JwtInterceptor;
+import com.tensquare.gathering.interceptor.JwtInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

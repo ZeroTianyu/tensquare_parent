@@ -1,4 +1,4 @@
-package com.tensquare.user.pojo.rsp;
+package com.tensquare.rabbit.jwt;
 
 import java.util.Date;
 
@@ -28,7 +28,7 @@ public class UserRsp {
     /**
      * 出生年月日
      */
-    private java.util.Date birthday;
+    private Date birthday;
     /**
      *
      */
@@ -42,12 +42,12 @@ public class UserRsp {
     /**
      * 注册日期
      */
-    private java.util.Date regdate;
+    private Date regdate;
 
     /**
      * 最后登陆日期
      */
-    private java.util.Date lastdate;
+    private Date lastdate;
 
     /**
      * 在线时长（分钟）
