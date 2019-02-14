@@ -1,5 +1,7 @@
 package com.tensquare.article.interceptor;
 
+import com.alibaba.fastjson.JSON;
+import entity.UserRsp;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,19 +29,21 @@ public class JwtInterceptor implements HandlerInterceptor {
         String authorization = request.getHeader("Authorization");
         if (!StringUtils.isEmpty(authorization) && authorization.startsWith("Bearer ")) {
             String token = authorization.substring(7);
-           try {
-               Claims claims = jwtUtil.parseJWT(token);
-               if (claims != null) {
-                   if ("admin".equals(claims.get("roles"))) {//如果是管理员
-                       request.setAttribute("c", token);
-                   }
-                   if ("user".equals(claims.get("roles"))) {//如果是用户
-                       request.setAttribute("user_claims", token);
-                   }
-               }
-           }catch (Exception e){
-               throw new RuntimeException("令牌有误");
-           }
+            try {
+                Claims claims = jwtUtil.parseJWT(token);
+
+                if (claims != null) {
+                    if ("admin".equals(claims.get("roles"))) {//如果是管理员
+                        request.setAttribute("admin_claims", token);
+                    }
+                    if ("user".equals(claims.get("roles"))) {//如果是用户
+                        request.setAttribute("user_claims", token);
+                    }
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException("令牌有误");
+            }
         }
         return true;
     }

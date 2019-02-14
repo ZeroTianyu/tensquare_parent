@@ -5,10 +5,14 @@ import com.tensquare.article.service.ArticleService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import util.JwtUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -24,6 +28,12 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
     /**
      * 设置审核状态
      *
@@ -31,9 +41,21 @@ public class ArticleController {
      * @return
      */
     @RequestMapping(value = "/examine/{articleId}", method = RequestMethod.PUT)
-    public Result examine(@PathVariable String articleId) {
-        articleService.examine(articleId);
-        return new Result(true, StatusCode.OK, "操作成功");
+    public Result examine(@RequestHeader String Authorization, @PathVariable String articleId) {
+        String token = null;
+        if (!StringUtils.isEmpty(Authorization) && Authorization.startsWith("Bearer ")) {
+            token = Authorization.substring(7);
+        }
+
+        Claims claims = jwtUtil.parseJWT(token);
+        String roles = (String) claims.get("roles");
+        if (!StringUtils.isEmpty(roles) && "admin".equals(roles)) {
+            articleService.examine(articleId);
+            return new Result(true, StatusCode.OK, "操作成功");
+        } else {
+            return new Result(false, StatusCode.ACCESSERROR, "权限不足");
+        }
+
     }
 
     @RequestMapping(value = "/thumbup/{articleId}", method = RequestMethod.PUT)

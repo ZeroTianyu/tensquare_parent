@@ -51,7 +51,7 @@ public class UserController {
         UserRsp user = userService.findByMobile(loginMap.get("mobile"), loginMap.get("password"));
         if (user != null) {
             //生成token
-            String token = jwtUtil.createJWT(user.getId(), user.getNickname(), "user",user);
+            String token = jwtUtil.createJWT(user.getId(), user.getNickname(),"user");
             Map map = new HashMap(16);
             //用户的密码不显示
             map.put("token", token);

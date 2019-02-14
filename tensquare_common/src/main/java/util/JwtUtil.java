@@ -54,29 +54,6 @@ public class JwtUtil {
         return builder.compact();
     }
 
-
-    /**
-     * 生成JWT
-     *
-     * @param id
-     * @param subject
-     * @return
-     */
-    public String createJWT(String id, String subject, String roles,Object user) {
-        long nowMillis = System.currentTimeMillis();
-        Date now = new Date(nowMillis);
-        JwtBuilder builder = Jwts.builder().setId(id)
-                .setSubject(subject)
-                .setIssuedAt(now)
-                .signWith(SignatureAlgorithm.HS256, key)
-                .claim("roles", roles)
-                .claim("user",user);
-        if (ttl > 0) {
-            builder.setExpiration(new Date(nowMillis + ttl));
-        }
-        return builder.compact();
-    }
-
     /**
      * 解析JWT
      *
