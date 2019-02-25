@@ -1,4 +1,4 @@
-package com.tensquare.friend.controller;
+package com.tensquare.spit.controller;
 
 import entity.Result;
 import entity.StatusCode;

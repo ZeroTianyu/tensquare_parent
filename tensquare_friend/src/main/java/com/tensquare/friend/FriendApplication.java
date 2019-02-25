@@ -29,7 +29,7 @@ public class FriendApplication {
 
     @Bean
     public JwtUtil jwtUtil() {
-        return new util.JwtUtil();
+        return new JwtUtil();
     }
 
 }

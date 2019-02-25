@@ -2,12 +2,11 @@ package com.tensquare.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import util.IdWorker;
 import util.JwtUtil;
-
-import java.util.TimeZone;
 
 /**
  * 启动类
@@ -15,6 +14,7 @@ import java.util.TimeZone;
  * @author Zero
  */
 @SpringBootApplication
+@EnableEurekaClient
 public class UserApplication {
 
     public static void main(String[] args) {

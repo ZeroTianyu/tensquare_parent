@@ -5,7 +5,7 @@ spring:
     name: tensquare-user
 
   datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
+    driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://39.105.37.77:3306/tensquare_user?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
     username: root
     password: Qwer@123456
@@ -31,3 +31,9 @@ jwt:
   config:
     key: itcast
     ttl: 3600000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka/
+  instance:
+    prefer-ip-address: true

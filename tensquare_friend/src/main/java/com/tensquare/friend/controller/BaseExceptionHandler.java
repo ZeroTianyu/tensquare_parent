@@ -1,4 +1,4 @@
-package com.tensquare.base.controller;
+package com.tensquare.friend.controller;
 
 import entity.Result;
 import entity.StatusCode;

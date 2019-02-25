@@ -18,6 +18,9 @@
         <module>tensquare_user</module>
         <module>tensquare_sms</module>
         <module>tensquare_eureka</module>
+        <module>tensquare_rabbitmqtest</module>
+        <module>tensquare_search</module>
+        <module>tensquare_friend</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -40,6 +43,13 @@
                 <version>Greenwich.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.47</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

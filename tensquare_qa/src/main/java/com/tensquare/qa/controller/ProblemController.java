@@ -2,6 +2,7 @@ package com.tensquare.qa.controller;
 
 import java.util.Map;
 
+import com.tensquare.qa.client.LabelClient;
 import com.tensquare.qa.pojo.Problem;
 import com.tensquare.qa.service.ProblemService;
 import io.jsonwebtoken.Claims;
@@ -39,6 +40,17 @@ public class ProblemController {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private LabelClient labelClient;
+
+
+    @RequestMapping(value = "/label/{labelid}")
+    public Result findLabelById(@PathVariable String labelid) {
+        Result result = labelClient.findById(labelid);
+        return result;
+
+    }
 
 
     /**
@@ -183,9 +195,9 @@ public class ProblemController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Result delete(@PathVariable String id) {
         try {
-            problemService.deleteById(id,request);
+            problemService.deleteById(id, request);
             return new Result(true, StatusCode.OK, "删除成功");
-        }catch (Exception e){
+        } catch (Exception e) {
             return new Result(false, StatusCode.ACCESSERROR, "您没有权限删除!");
         }
     }

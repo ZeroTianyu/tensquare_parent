@@ -24,7 +24,7 @@ public class JwtInterceptor implements HandlerInterceptor {
     private JwtUtil jwtUtil;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String authorization = request.getHeader("Authorization");
         if (!StringUtils.isEmpty(authorization) && authorization.startsWith("Bearer ")) {
             String token = authorization.substring(7);
@@ -35,7 +35,7 @@ public class JwtInterceptor implements HandlerInterceptor {
                         request.setAttribute("admin_claims", token);
                     }
                     if ("user".equals(claims.get("roles"))) {//如果是用户
-                        request.setAttribute("user_claims", token);
+                        request.setAttribute("user_claims", claims);
                     }
                 }
             } catch (ExpiredJwtException e) {

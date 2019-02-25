@@ -11,23 +11,13 @@ import java.io.Serializable;
  * @create 2019/02/15  16:34
  */
 @Entity
-@Table(name = "tb_friend")
-@IdClass(Friend.class)
-public class Friend implements Serializable {
+@Table(name = "tb_nofriend")
+@IdClass(NoFriend.class)
+public class NoFriend implements Serializable {
     @Id
     private String userid;
     @Id
     private String friendid;
-
-    private String isLike;
-
-    public String getIsLike() {
-        return isLike;
-    }
-
-    public void setIsLike(String isLike) {
-        this.isLike = isLike;
-    }
 
     public String getUserid() {
         return userid;
