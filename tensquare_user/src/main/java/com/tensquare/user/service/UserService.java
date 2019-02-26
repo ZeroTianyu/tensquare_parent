@@ -9,9 +9,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 
-import com.tensquare.user.pojo.Admin;
-import com.tensquare.user.pojo.rsp.UserRsp;
 import entity.Result;
 import entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,14 +44,15 @@ public class UserService {
 
     /**
      * 登录
+     *
      * @param mobile
      * @param password
      * @return
      */
-    public UserRsp findByMobile(String mobile, String password) {
+    public User findByMobile(String mobile, String password) {
         User user = userDao.findByMobile(mobile);
         if (user != null && encoder.matches(password, user.getPassword())) {
-            UserRsp rsp = new UserRsp();
+            User rsp = new User();
             rsp.setId(user.getId());
             rsp.setMobile(user.getMobile());
             rsp.setNickname(user.getNickname());
@@ -219,6 +219,16 @@ public class UserService {
             }
         };
 
+    }
+
+    /**
+     * 更新粉丝数
+     *
+     * @param x
+     */
+    @Transactional(rollbackOn = Exception.class)
+    public void incFansCount(String userId, int x) {
+        userDao.incFanscount(userId, x);
     }
 
 }

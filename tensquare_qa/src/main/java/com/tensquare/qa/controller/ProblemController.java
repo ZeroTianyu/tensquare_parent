@@ -7,6 +7,7 @@ import com.tensquare.qa.pojo.Problem;
 import com.tensquare.qa.service.ProblemService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,15 +42,15 @@ public class ProblemController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Qualifier("tensquare-base")
     @Autowired
     private LabelClient labelClient;
 
 
-    @RequestMapping(value = "/label/{labelid}")
-    public Result findLabelById(@PathVariable String labelid) {
-        Result result = labelClient.findById(labelid);
+    @RequestMapping(value = "/label/{labelId}")
+    public Result findLabelById(@PathVariable String labelId) {
+        Result result = labelClient.findById(labelId);
         return result;
-
     }
 
 

@@ -62,6 +62,7 @@ public class FriendController {
                 return new Result(true, StatusCode.OK, "添加成功");
             } else if ("2".equals(type)) {
                 //添加非好友
+                friendService.addNoFriend(userId, friendId);
                 return new Result(true, StatusCode.OK, "添加成功");
             } else {
                 return new Result(true, StatusCode.ERROR, "参数异常");
@@ -71,5 +72,21 @@ public class FriendController {
             return new Result(true, StatusCode.ERROR, "参数异常");
         }
 
+    }
+
+    /**
+     * 删除好友
+     *
+     * @param friendId
+     * @return
+     */
+    @RequestMapping(value = "/{friendId}", method = RequestMethod.DELETE)
+    public Result remove(@PathVariable String friendId) {
+        Claims claims = (Claims) request.getAttribute("user_claims");
+        if (claims == null) {
+            return new Result(false, StatusCode.ACCESSERROR, "无权访问");
+        }
+        friendService.deleteFriend(claims.getId(), friendId);
+        return new Result(true, StatusCode.OK, "删除成功");
     }
 }

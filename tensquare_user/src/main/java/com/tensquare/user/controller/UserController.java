@@ -3,8 +3,6 @@ package com.tensquare.user.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tensquare.user.pojo.rsp.UserRsp;
-import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,14 +46,14 @@ public class UserController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result findByMobile(@RequestBody Map<String, String> loginMap) {
-        UserRsp user = userService.findByMobile(loginMap.get("mobile"), loginMap.get("password"));
+        User user = userService.findByMobile(loginMap.get("mobile"), loginMap.get("password"));
         if (user != null) {
             //生成token
-            String token = jwtUtil.createJWT(user.getId(), user.getNickname(),"user");
+            String token = jwtUtil.createJWT(user.getId(), user.getNickname(), "user");
             Map map = new HashMap(16);
             //用户的密码不显示
             map.put("token", token);
-            map.put("user",user);
+            map.put("user", user);
 
             return new Result(true, StatusCode.OK, "登录成功", map);
         } else {
@@ -143,11 +141,22 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Result delete(@PathVariable String id) {
         String token = (String) request.getAttribute("admin_claims");
-        if (StringUtils.isEmpty(token)){
+        if (StringUtils.isEmpty(token)) {
             throw new RuntimeException("权限不足!");
         }
         userService.deleteById(id);
         return new Result(true, StatusCode.OK, "删除成功");
+    }
+
+    /**
+     * 增加粉丝数
+     *
+     * @param userId
+     * @param x
+     */
+    @RequestMapping(value = "/incFans/{userId}/{x}", method = RequestMethod.POST)
+    public void incFansCount(@PathVariable String userId, @PathVariable int x) {
+        userService.incFansCount(userId, x);
     }
 
 }

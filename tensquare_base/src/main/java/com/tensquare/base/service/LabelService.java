@@ -41,7 +41,11 @@ public class LabelService {
     }
 
     public Label findById(String id) {
-        return labelDao.findById(id).get();
+        Label label = labelDao.findById(id).get();
+        if (label == null) {
+            System.out.println("没有该条数据！");
+        }
+        return label;
     }
 
     /**
