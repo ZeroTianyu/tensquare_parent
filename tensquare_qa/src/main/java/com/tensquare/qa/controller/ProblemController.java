@@ -42,7 +42,7 @@ public class ProblemController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @Qualifier("tensquare-base")
+
     @Autowired
     private LabelClient labelClient;
 
