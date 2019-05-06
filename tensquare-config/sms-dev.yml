@@ -1,0 +1,15 @@
+server:
+  port: 9009
+spring:
+  application:
+    name: tensquare-sms #指定服务名
+  rabbitmq:
+    host: 39.105.37.77
+    username: root
+    password: Qwer@123456
+eureka:
+  client:
+    service-url:  #Eureka客户端与Eureka服务端进行交互的地址
+      defaultZone: http://39.105.37.77:6868/eureka/
+  instance:
+    prefer-ip-address: true

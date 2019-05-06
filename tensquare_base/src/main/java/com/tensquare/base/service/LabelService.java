@@ -24,7 +24,7 @@ import java.util.List;
  * @author Zero
  */
 @Service
-public class LabelService {
+public class  LabelService {
     @Autowired
     private LabelDao labelDao;
 

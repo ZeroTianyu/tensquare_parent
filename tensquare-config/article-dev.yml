@@ -1,0 +1,33 @@
+server: 
+  port: 9004
+spring:
+  application:
+    name: tensquare-article #指定服务名
+  datasource:  
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://39.105.37.77:3306/tensquare_article?characterEncoding=UTF8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: Qwer@123456
+  jpa: 
+    database: MySQL
+    show-sql: true
+    open-in-view: true
+  redis:
+    port: 6379
+    host: 39.105.37.77
+
+  rabbitmq:
+    host: 39.105.37.77
+    username: root
+    password: Qwer@123456
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://39.105.37.77:6868/eureka/
+  instance:
+    prefer-ip-address: true
+jwt:
+  config:
+    key: itcast
+    ttl: 3600000
